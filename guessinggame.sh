@@ -10,7 +10,7 @@ function guess_eval {
 	# this function returns the string "high", "low", or signals
 	# that the player has correctly guessed by returning an empty string
 
-	# $1 is the player's guess, $2 is the number of objects in
+	# $1 is the player's guess, $2 is the number of files in
 	# the directory in question
 	[[ $1 -gt $2 ]] && echo "high" && return # case: too high
 	[[ $1 -lt $2 ]] && echo "low"  && return # case: too low
@@ -18,8 +18,10 @@ function guess_eval {
 	echo "" # if the player guesses correctly, return an empty string
 }
 
-# the number of files in the directory is obtained by piping ls into wc
-number=$(ls . | wc -l) 
+# the number of files in the directory is obtained by piping ls into 
+# grep, which identifies files from directories, and finally pipes
+# into wc to count how many files exist
+number=$(ls -la . | grep ^- | wc -l) 
 
 # this while loop will only exit if guess_eval returns an empty string (a win)
 while echo "Enter a guess: " && read guess 
