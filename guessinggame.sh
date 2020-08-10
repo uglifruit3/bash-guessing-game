@@ -12,8 +12,9 @@ function guess_eval {
 
 	# $1 is the player's guess, $2 is the number of files in
 	# the directory in question
-	[[ $1 -gt $2 ]] && echo "high" && return # case: too high
-	[[ $1 -lt $2 ]] && echo "low"  && return # case: too low
+	[[ $1 =~ [^0-9] ]] 	&& echo "Please enter an integer" && return # case: player did not enter integer
+	[[ $1 -gt $2 ]] 		&& echo "You're too high" && return # case: too high
+	[[ $1 -lt $2 ]] 		&& echo "You're too low"  && return # case: too low
 
 	echo "" # if the player guesses correctly, return an empty string
 }
@@ -29,7 +30,7 @@ do
 	str=$(guess_eval $guess $number) # function call for guess_eval equals $str
 	if [[ -n $str ]] # if the string returned by guess_eval has non-zero length...
 	then
-		echo "Incorrect! You're too $str"
+		echo "Incorrect! $str"
 	else # by elimination, if the string from guess_eval has zero length (a win!)
 		echo "You won! There were $number files"
 		break # exits the loop and subsequently ends the program
